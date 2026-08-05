@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="关于瀛光 AI。了解北京仙盛科技有限公司旗下的企业级 AI 平台定位、服务范围、本地部署方向、状态入口与鸣谢信息。">
+  <title>关于瀛光 AI｜企业级 AI 基础设施与统一 API 网关</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-strong: #ffffff;
+      --text: #132238;
+      --muted: #5c6b82;
+      --border: rgba(19, 34, 56, 0.12);
+      --brand: #1f6feb;
+      --brand-strong: #134fc9;
+      --brand-soft: rgba(31, 111, 235, 0.08);
+      --success: #0f9d58;
+      --warning: #b58105;
+      --shadow: none;
+      --line: rgba(19, 34, 56, 0.12);
+      --chip-bg: rgba(19, 34, 56, 0.05);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #08111f;
+        --surface: #0d1727;
+        --surface-strong: #0d1727;
+        --text: #ecf2ff;
+        --muted: #9aa8bf;
+        --border: rgba(236, 242, 255, 0.14);
+        --brand: #76a9ff;
+        --brand-strong: #a8c6ff;
+        --brand-soft: rgba(118, 169, 255, 0.12);
+        --success: #3bc46d;
+        --warning: #f0b84b;
+        --line: rgba(236, 242, 255, 0.14);
+        --chip-bg: rgba(236, 242, 255, 0.06);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--brand); }
+    a:focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 3px;
+    }
+
+    .page {
+      width: min(760px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 44px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 8px 0 20px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 28px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, var(--brand-soft), transparent);
+      flex: none;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.2;
+      letter-spacing: 0.04em;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .nav a {
+      padding: 6px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .nav a:hover { color: var(--text); }
+
+    .about-flag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 16px;
+      color: var(--brand-strong);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .about-flag::before {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background: var(--line);
+    }
+
+    h2, h3, h4, p { margin: 0; }
+
+    .intro {
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 24px;
+    }
+
+    .intro h2 {
+      font-size: clamp(36px, 6vw, 52px);
+      line-height: 1.06;
+      letter-spacing: -0.04em;
+      max-width: 12ch;
+    }
+
+    .intro p {
+      margin-top: 16px;
+      max-width: 62ch;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .lead-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .btn.primary {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    .btn.primary:hover { color: var(--bg); }
+
+    .section {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section:last-of-type { border-bottom: 0; }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .section-kicker {
+      color: var(--brand-strong);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin-top: 6px;
+      font-size: 22px;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    .section-copy {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 64ch;
+    }
+
+    .flow {
+      display: grid;
+      gap: 14px;
+    }
+
+    .note {
+      padding: 16px 0 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .list {
+      list-style: none;
+      padding: 0;
+      margin: 14px 0 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .list li {
+      padding-left: 16px;
+      position: relative;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.88em;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--brand);
+    }
+
+    .metric-line {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .metric {
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .status-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .status-row {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 12px;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .status-row:first-child { border-top: 0; padding-top: 0; }
+
+    .status-label {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .status-body {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--warning);
+      box-shadow: 0 0 0 4px rgba(181, 133, 5, 0.12);
+    }
+
+    .status.ok .dot { background: var(--success); box-shadow: 0 0 0 4px rgba(15, 157, 88, 0.12); }
+    .status.warn .dot { background: var(--warning); box-shadow: 0 0 0 4px rgba(181, 133, 5, 0.12); }
+
+    .meta-list {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 0;
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .meta-list strong { color: var(--text); font-weight: 600; }
+
+    .link-stack {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .link-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .link-row:first-child { border-top: 0; padding-top: 0; }
+
+    .link-row strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .link-row span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .link-row em {
+      font-style: normal;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .footer {
+      padding-top: 20px;
+      margin-top: 8px;
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer a { text-decoration: underline; text-underline-offset: 3px; }
+
+    .fineprint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.75;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 640px) {
+      .page { width: min(100% - 20px, 760px); padding-top: 12px; }
+      .topbar { flex-direction: column; align-items: stretch; }
+      .nav { justify-content: flex-start; }
+      .section-head { flex-direction: column; align-items: flex-start; }
+      .metric-line { grid-template-columns: 1fr; }
+      .status-row { grid-template-columns: 1fr; }
+      .link-row { flex-direction: column; align-items: flex-start; }
+      .intro h2 { max-width: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <main>
+      <section class="intro" aria-labelledby="about-title">
+        <div class="about-flag">ABOUT</div>
+        <h2 id="about-title">面向企业交付的 AI 平台说明。</h2>
+        <p>瀛光 AI 由北京仙盛科技有限公司运营，定位为面向企业客户的 AI 平台与统一 API 网关，覆盖模型接入、协议兼容、调用路由、权限与用量管理、账单与监控等能力，并支持向本地化算力环境延展。</p>
+        <div class="lead-links" aria-label="快捷链接">
+          <a class="btn primary" href="https://ai.yzy15.dpdns.org/" target="_blank" rel="noreferrer">官方平台</a>
+          <a class="btn" href="https://docs.newapi.pro/zh/docs/api" target="_blank" rel="noreferrer">文档</a>
+          <a class="btn" href="#status">服务状态</a>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="scope-title">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">01</div>
+            <h3 class="section-title" id="scope-title">平台定位与服务范围</h3>
+          </div>
+        </div>
+        <div class="flow">
+          <p class="section-copy">保持 B 端表达，聚焦能力边界，不编造未经验证的企业信息。</p>
+          <ul class="list">
+            <li>企业级 AI 基础设施：为企业内部应用、业务系统与开发团队提供统一接入层，帮助模型能力进入可管理、可审计、可持续运维的生产环境。</li>
+            <li>平台服务范围：覆盖兼容式 API 接入、多模型路由、权限边界、使用量统计、账单协同、运行监控与基础运维支持。</li>
+            <li>技术团队能力：以平台工程、接口兼容、部署交付、运行保障与持续迭代为导向开展工作；本页不披露未经确认的人数、履历、客户或资质信息。</li>
+          </ul>
+          <div class="note">本页面只保留公开介绍所需的能力边界，不扩展到首页式的仪表盘骨架、浮层网格或双栏 Hero 卡片。</div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="capability-title">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">02</div>
+            <h3 class="section-title" id="capability-title">本地部署与能力方向</h3>
+          </div>
+        </div>
+        <div class="flow">
+          <p class="section-copy">面向需要数据边界、算力控制与内网可用性的部署场景。</p>
+          <div class="metric-line">
+            <div class="metric">
+              <strong>H200</strong>
+              <span>本地部署方向</span>
+            </div>
+            <div class="metric">
+              <strong>GB300 / A180G</strong>
+              <span>本地部署方向</span>
+            </div>
+          </div>
+          <ul class="list">
+            <li>支持围绕 H200、GB300、A180G 等本地部署硬件方向进行方案规划，适合对算力部署与数据驻留有要求的组织。</li>
+            <li>公开展示约 200 峰值并发、约 150 token/s 峰值生成速度，作为系统能力参考口径，具体结果受模型、上下文、任务类型与网络环境影响。</li>
+            <li>可见性能口径：本页中的峰值并发与生成速度仅作为公开展示参考，不等同于所有模型、所有上下文、所有网络环境下的实际性能。</li>
+          </ul>
+          <div class="note">保留真实内容的同时，仅以文字和分隔线组织信息流，不引入首页视觉中的仪表盘与卡片堆叠。</div>
+        </div>
+      </section>
+
+      <section class="section" id="status" aria-labelledby="status-title">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">03</div>
+            <h3 class="section-title" id="status-title">服务状态</h3>
+          </div>
+        </div>
+        <div class="flow">
+          <p class="section-copy">仅保留 OpenAI、Anthropic、瀛光 AI 三个入口，并保留可独立打开的状态逻辑。</p>
+          <div class="status-list">
+            <div class="status-row" data-status-card="openai">
+              <div class="status-label">OpenAI</div>
+              <div class="status-body">
+                <div class="status warn" data-status-state="openai"><span class="dot" aria-hidden="true"></span><span>自动详情暂不可读取</span></div>
+                <ul class="meta-list">
+                  <li><strong>数据来源：</strong><a href="https://status.openai.com/" target="_blank" rel="noreferrer">官方状态页</a></li>
+                  <li><strong>读取逻辑：</strong>保留官方状态页，不猜测 JSON endpoint</li>
+                  <li><strong>展示原则：</strong>自动详情暂不可读取时不做额外推断</li>
+                </ul>
+              </div>
+            </div>
+            <div class="status-row" data-status-card="anthropic">
+              <div class="status-label">Anthropic</div>
+              <div class="status-body">
+                <div class="status warn" data-status-state="anthropic"><span class="dot" aria-hidden="true"></span><span>自动详情暂不可读取</span></div>
+                <ul class="meta-list">
+                  <li><strong>数据来源：</strong><a href="https://status.claude.com/" target="_blank" rel="noreferrer">官方状态页</a></li>
+                  <li><strong>读取逻辑：</strong>读取 <code>https://status.claude.com/api/v2/status.json</code> 的 <code>payload.page.status.indicator</code> / <code>payload.page.status.description</code></li>
+                  <li><strong>展示原则：</strong>仅在字段明确时展示状态，否则保留中性提示</li>
+                </ul>
+              </div>
+            </div>
+            <div class="status-row" data-status-card="yingguang">
+              <div class="status-label">瀛光 AI</div>
+              <div class="status-body">
+                <div class="status warn" data-status-state="yingguang"><span class="dot" aria-hidden="true"></span><span>主状态页与备用状态页待自动读取</span></div>
+                <ul class="meta-list">
+                  <li><strong>数据来源：</strong><a href="https://uptime.yzy15.dpdns.org/status/cffofetrti" target="_blank" rel="noreferrer">主状态页</a></li>
+                  <li><strong>备用地址：</strong><a href="https://uptimeo.dpdns.org/status/cffofetrti" target="_blank" rel="noreferrer">备用状态页</a></li>
+                  <li><strong>读取逻辑：</strong>主状态页失败后仅尝试备用地址；成功后明确显示当前使用主站或备用站，失败则标记不可用</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="note">状态读取保留主备降级与 AbortController 超时控制；页面主体在任一状态读取失败时仍应保持完整可见。</div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="thanks-title">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">04</div>
+            <h3 class="section-title" id="thanks-title">鸣谢与链接</h3>
+          </div>
+        </div>
+        <div class="flow">
+          <p class="section-copy">感谢公开生态、协作伙伴与持续支持者。</p>
+          <ul class="list">
+            <li>感谢 NewAPI 相关开源贡献者、平台生态支持者以及长期关注瀛光 AI 的用户与协作者。</li>
+            <li>本页仅作公开介绍，不代表对任何未核实合作关系、客户关系或资质认证的声明。</li>
+          </ul>
+          <div class="link-stack" aria-label="官方链接">
+            <a class="link-row" href="https://ai.yzy15.dpdns.org/" target="_blank" rel="noreferrer">
+              <div><strong>官方平台</strong><span>ai.yzy15.dpdns.org</span></div><em>打开</em>
+            </a>
+            <a class="link-row" href="https://docs.newapi.pro/zh/docs/api" target="_blank" rel="noreferrer">
+              <div><strong>文档</strong><span>New API 文档</span></div><em>打开</em>
+            </a>
+            <a class="link-row" href="/用户协议.txt">
+              <div><strong>用户协议</strong><span>本地公开文本</span></div><em>查看</em>
+            </a>
+            <a class="link-row" href="/隐私政策.txt">
+              <div><strong>隐私政策</strong><span>本地公开文本</span></div><em>查看</em>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const TIMEOUT_MS = 3500;
+      const services = {
+        openai: {
+          label: 'OpenAI',
+          state: 'unreadable',
+          message: '自动详情暂不可读取',
+          url: 'https://status.openai.com/'
+        },
+        anthropic: {
+          label: 'Anthropic',
+          state: 'unknown',
+          message: '自动详情暂不可读取',
+          url: 'https://status.claude.com/api/v2/status.json'
+        },
+        yingguang: {
+          label: '瀛光 AI',
+          state: 'unknown',
+          message: '主状态页与备用状态页待自动读取',
+          primary: 'https://uptime.yzy15.dpdns.org/status/cffofetrti',
+          fallback: 'https://uptimeo.dpdns.org/status/cffofetrti'
+        }
+      };
+
+      const statusCards = new Map(
+        Array.from(document.querySelectorAll('[data-status-card]')).map((node) => [node.dataset.statusCard, node])
+      );
+
+      const stateClassByStatus = (state) => {
+        if (state === 'operational') return 'ok';
+        if (state === 'degraded' || state === 'partial_outage' || state === 'maintenance') return 'warn';
+        if (state === 'down' || state === 'major_outage' || state === 'unavailable') return 'warn';
+        return 'warn';
+      };
+
+      const statusTextByState = (label, state) => {
+        if (state === 'operational') return `${label} 正常`;
+        if (state === 'degraded') return `${label} 受影响`;
+        if (state === 'partial_outage') return `${label} 部分异常`;
+        if (state === 'major_outage' || state === 'down' || state === 'unavailable') return `${label} 异常`;
+        if (state === 'maintenance') return `${label} 维护中`;
+        return `${label} 无法读取`;
+      };
+
+      const updateCard = (key, state, message, detailText) => {
+        const card = statusCards.get(key);
+        if (!card) return;
+        const indicator = card.querySelector('[data-status-state]');
+        const textNode = card.querySelector('[data-status-state] span:last-child');
+        const readout = card.querySelector('.meta-list li[data-readout]');
+        if (indicator) {
+          indicator.classList.remove('ok', 'warn');
+          indicator.classList.add(stateClassByStatus(state));
+        }
+        if (textNode) textNode.textContent = message;
+        if (readout && detailText) readout.innerHTML = `<strong>读取状态：</strong>${detailText}`;
+      };
+
+      const withTimeout = (promise) => {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+        const guarded = Promise.resolve(promise(controller.signal)).finally(() => clearTimeout(timer));
+        return guarded;
+      };
+
+      const fetchJson = async (url, signal) => {
+        const response = await fetch(url, { signal, cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      };
+
+      const fetchText = async (url, signal) => {
+        const response = await fetch(url, { signal, cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.text();
+      };
+
+      const normalizeStatus = (value) => {
+        const text = String(value || '').toLowerCase();
+        if (!text) return 'unknown';
+        if (['operational', 'ok', 'up', 'available', 'green'].includes(text)) return 'operational';
+        if (['degraded', 'partial_outage', 'partial outage', 'partial', 'maintenance'].includes(text)) return text.replace(' ', '_');
+        if (['major_outage', 'outage', 'down', 'unavailable', 'red'].includes(text)) return text === 'outage' ? 'major_outage' : text;
+        return 'unknown';
+      };
+
+      const readOpenAI = () => {
+        updateCard('openai', 'unknown', '自动详情暂不可读取', '仅保留官方状态页入口，不猜测 JSON endpoint');
+      };
+
+      const readAnthropic = async () => {
+        try {
+          const payload = await withTimeout((signal) => fetchJson(services.anthropic.url, signal));
+          const page = payload && payload.page ? payload.page : {};
+          const indicator = normalizeStatus(page.status && page.status.indicator);
+          const description = String(page.status && page.status.description ? page.status.description : '').trim();
+          const detail = description ? `Statuspage：${description}` : '已读取官方 JSON';
+          updateCard('anthropic', indicator, statusTextByState(services.anthropic.label, indicator), detail);
+        } catch {
+          updateCard('anthropic', 'unknown', '自动详情暂不可读取', '自动详情暂不可读取');
+        }
+      };
+
+      const readYingguang = async () => {
+        const tryFetch = async (url) => {
+          const text = await withTimeout((signal) => fetchText(url, signal));
+          const match = text.match(/"status"\s*:\s*"([^"]+)"/i) || text.match(/status\s*[:=]\s*([A-Za-z_ -]+)/i);
+          return { status: match ? normalizeStatus(match[1]) : 'unknown' };
+        };
+
+        try {
+          const primary = await tryFetch(services.yingguang.primary);
+          const detail = `当前使用主站 · ${primary.status === 'unknown' ? '字段不可解析' : statusTextByState(services.yingguang.label, primary.status)}`;
+          updateCard('yingguang', primary.status, statusTextByState(services.yingguang.label, primary.status), detail);
+          if (primary.status !== 'operational' && primary.status !== 'degraded' && primary.status !== 'partial_outage' && primary.status !== 'maintenance' && primary.status !== 'major_outage' && primary.status !== 'down' && primary.status !== 'unavailable') {
+            throw new Error('primary unreadable');
+          }
+        } catch {
+          try {
+            const fallback = await tryFetch(services.yingguang.fallback);
+            const detail = `当前使用备用站 · ${fallback.status === 'unknown' ? '字段不可解析' : statusTextByState(services.yingguang.label, fallback.status)}`;
+            updateCard('yingguang', fallback.status, statusTextByState(services.yingguang.label, fallback.status), detail);
+          } catch {
+            updateCard('yingguang', 'unknown', '无法读取状态', '主状态页失败后仅尝试备用地址，当前均不可用');
+          }
+        }
+      };
+
+      readOpenAI();
+      readAnthropic();
+      readYingguang();
+    }());
+  </script>
+</body>
+</html>

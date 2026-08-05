@@ -1,0 +1,7 @@
+CLAUDE.md
+docs/superpowers/
+.superpowers/
+.playwright-mcp/
+*.log
+*.tmp
+*~

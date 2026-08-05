@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="瀛光 AI 多协议开发者文档">
+  <title>快速开始 | 瀛光 AI 文档</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="quickstart">
+  <header class="docs-topbar border-bottom"><div class="container-fluid d-flex align-items-center justify-content-between gap-3 py-2"><a class="brand-link" href="index.html">瀛光 AI <span>文档</span></a><div class="d-flex align-items-center gap-2"><a class="topbar-link d-none d-md-inline" href="https://ai.yzy15.dpdns.org" target="_blank" rel="noreferrer">打开官网</a><button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#docsSidebar" aria-controls="docsSidebar">菜单</button></div></div></header>
+  <div class="docs-layout"><aside class="offcanvas-lg offcanvas-start docs-sidebar" tabindex="-1" id="docsSidebar" aria-label="文档导航"><div class="offcanvas-header d-lg-none"><h2 class="offcanvas-title h6 mb-0">文档导航</h2><button class="btn-close" type="button" data-bs-dismiss="offcanvas" aria-label="关闭导航"></button></div><nav class="offcanvas-body d-block p-3 p-lg-4"><div class="nav-group"><div class="nav-group-title">开始使用</div><a data-nav-page="overview" href="index.html">概览</a><a data-nav-page="quickstart" href="quickstart.html">快速开始</a><a data-nav-page="authentication" href="authentication.html">鉴权与 Base URL</a></div><div class="nav-group"><div class="nav-group-title">OpenAI 兼容</div><a data-nav-page="openai-chat" href="openai-chat.html">Chat Completions</a><a data-nav-page="openai-responses" href="openai-responses.html">Responses</a></div><div class="nav-group"><div class="nav-group-title">Anthropic</div><a data-nav-page="anthropic" href="anthropic.html">Messages / Claude</a></div><div class="nav-group"><div class="nav-group-title">Gemini</div><a data-nav-page="gemini" href="gemini.html">Gemini API</a></div><div class="nav-group"><div class="nav-group-title">平台使用</div><a data-nav-page="models" href="models.html">模型列表与选择</a><a data-nav-page="billing" href="billing.html">计费与用量</a><a data-nav-page="faq" href="faq.html">常见问题</a></div><div class="nav-group"><div class="nav-group-title">安全</div><a data-nav-page="security" href="security.html">API Key 安全</a><a data-nav-page="about" href="about.html">关于瀛光 AI</a></div></nav></aside><main class="docs-main"><div class="container-fluid docs-content"><h1>快速开始</h1><p class="lead">以下流程用于先完成最短路径接入，再按当前部署补齐协议细节。</p><div class="docs-callout mb-4">所有字段、路径、认证方式和模型列表以实际部署、当前控制台或最新官方文档为准。</div><section class="docs-card mb-4"><h2 class="h4 mb-3">六步快速开始</h2><ol class="docs-grid mb-0" style="gap:0.75rem;"><li class="docs-card">确认你要接入的协议入口：OpenAI Chat Completions、OpenAI Responses、Anthropic Messages / Claude、Gemini API。</li><li class="docs-card">从当前部署的控制台或文档获取 API Key，勿在浏览器页面粘贴真实密钥。</li><li class="docs-card">在当前实例中选择一个可用模型，并记录实际返回或支持的 <code>MODEL_ID</code>。</li><li class="docs-card">选择主用或备用 <code>BASE_URL</code>，以实际部署可用性为准；不要预设固定 endpoint。</li><li class="docs-card">复制当前协议示例，并用安全占位符替换 <code>API_KEY</code>、<code>MODEL_ID</code>、<code>BASE_URL</code>、<code>AUTH_HEADER</code>。</li><li class="docs-card">发送请求后核对响应结构、错误信息、流式行为和字段名是否与当前部署一致。</li></ol></section><div class="docs-grid cols-2 mb-4"><section class="docs-card"><h2 class="h4">主备地址</h2><ul class="mb-0"><li><strong>主用地址：</strong><code>https://ai.yzy15.dpdns.org</code></li><li><strong>备用地址：</strong><code>https://aio.yzy15.dpdns.org</code></li></ul></section><section class="docs-card"><h2 class="h4">占位符约定</h2><ul class="mb-0"><li><code>API_KEY</code>：仅在服务端环境保存和注入。</li><li><code>MODEL_ID</code>：以当前部署实际可用模型标注为准。</li><li><code>BASE_URL</code>：在主备地址之间选择当前可用基址。</li><li><code>AUTH_HEADER</code>：以当前部署确认的认证头名称为准。</li></ul></section></div><section class="docs-card"><div class="d-flex flex-wrap justify-content-between gap-2 align-items-center mb-3"><h2 class="h4 mb-0">示意请求骨架</h2><span class="badge-soft">协议形态参考</span></div><p>下面的请求只展示协议形状，不承诺固定路径、固定头名或固定字段集合。</p><div class="code-shell"><button class="btn btn-sm btn-outline-light copy-btn" type="button" data-copy-target="#quickstart-request">复制</button><pre><code id="quickstart-request">BASE_URL=&lt;deployment base URL&gt;
+API_KEY=&lt;your API key&gt;
+MODEL_ID=&lt;model available in this deployment&gt;
+AUTH_HEADER=&lt;header confirmed by deployment documentation&gt;
+
+curl "$BASE_URL/&lt;deployment path&gt;" \
+  -H "$AUTH_HEADER: $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "'"$MODEL_ID"'",
+    "messages": [
+      {"role": "user", "content": "Hello"}
+    ]
+  }'</code></pre></div></section></div></main></div>
+  <footer class="docs-footer border-top"><div class="container-fluid py-3 d-flex flex-wrap justify-content-between gap-2"><div>北京仙盛科技有限公司 · 瀛光 AI</div><div class="d-flex gap-3"><a href="用户协议.txt">用户协议</a><a href="隐私政策.txt">隐私政策</a></div></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="assets/docs.js"></script>
+</body>
+</html>

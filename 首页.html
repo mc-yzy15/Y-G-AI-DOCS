@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="瀛光 AI 首页主体，提供统一 API、协议、API Key、Base URL、用量、计费、监控与模型广场入口。">
+  <title>瀛光 AI｜企业级 AI 基础设施与统一 API 网关</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f5f7fb;
+      --surface: rgba(255, 255, 255, 0.78);
+      --surface-strong: #ffffff;
+      --text: #132238;
+      --muted: #5c6b82;
+      --border: rgba(19, 34, 56, 0.12);
+      --brand: #1f6feb;
+      --brand-strong: #134fc9;
+      --brand-soft: rgba(31, 111, 235, 0.12);
+      --success: #0f9d58;
+      --warning: #b58105;
+      --danger: #cf4444;
+      --shadow: 0 18px 50px rgba(13, 24, 38, 0.08);
+      --grid: rgba(31, 111, 235, 0.08);
+      --code-bg: #0f172a;
+      --code-text: #d9e5ff;
+      --chip-bg: rgba(19, 34, 56, 0.06);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #08111f;
+        --surface: rgba(14, 22, 36, 0.82);
+        --surface-strong: #101b2d;
+        --text: #ecf2ff;
+        --muted: #9aa8bf;
+        --border: rgba(236, 242, 255, 0.12);
+        --brand: #76a9ff;
+        --brand-strong: #a8c6ff;
+        --brand-soft: rgba(118, 169, 255, 0.16);
+        --success: #3bc46d;
+        --warning: #f0b84b;
+        --danger: #ff6b6b;
+        --shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+        --grid: rgba(118, 169, 255, 0.1);
+        --code-bg: #0b1322;
+        --code-text: #dbe7ff;
+        --chip-bg: rgba(236, 242, 255, 0.07);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(31, 111, 235, 0.12), transparent 28%),
+        radial-gradient(circle at top right, rgba(15, 157, 88, 0.08), transparent 24%),
+        linear-gradient(180deg, var(--bg), var(--bg));
+      color: var(--text);
+      line-height: 1.6;
+      letter-spacing: 0.01em;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { color: var(--brand); }
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 3px;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 40px;
+    }
+
+    .panel, .card {
+      background: var(--surface);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.18fr 0.82fr;
+      gap: 20px;
+      align-items: stretch;
+      margin-bottom: 20px;
+    }
+
+    .panel {
+      border-radius: 26px;
+      padding: 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      color: var(--brand-strong);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: clamp(40px, 5vw, 50px);
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      max-width: 12ch;
+    }
+
+    .hero p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 62ch;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 600;
+      background: var(--surface-strong);
+    }
+
+    .btn.primary {
+      background: var(--brand);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .btn.primary:hover { background: var(--brand-strong); color: #fff; }
+
+    .hero-aside {
+      display: grid;
+      gap: 14px;
+    }
+
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .mini {
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--surface-strong), transparent);
+    }
+
+    .mini strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .mini span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .codebox {
+      border-radius: 20px;
+      padding: 18px;
+      background: var(--code-bg);
+      color: var(--code-text);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .codebox .label {
+      color: rgba(217, 229, 255, 0.72);
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .codebox pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .section {
+      margin-top: 18px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 0 12px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .status-grid, .capability-grid, .summary {
+      display: grid;
+      gap: 14px;
+    }
+
+    .status-grid, .capability-grid, .summary {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      border-radius: 22px;
+      padding: 20px;
+    }
+
+    .card h4 {
+      margin: 0 0 10px;
+      font-size: 17px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--chip-bg);
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--warning);
+      box-shadow: 0 0 0 4px rgba(181, 133, 5, 0.12);
+    }
+
+    .status.ok .dot { background: var(--success); box-shadow: 0 0 0 4px rgba(15, 157, 88, 0.12); }
+    .status.warn .dot { background: var(--warning); box-shadow: 0 0 0 4px rgba(181, 133, 5, 0.12); }
+    .status.bad .dot { background: var(--danger); box-shadow: 0 0 0 4px rgba(207, 68, 68, 0.14); }
+
+    .meta-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .meta-list strong { color: var(--text); font-weight: 600; }
+
+    .feature {
+      padding-top: 2px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .feature strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .summary .card strong {
+      display: block;
+      font-size: 32px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .summary .card span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .feature-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface-strong);
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    @media (max-width: 920px) {
+      .hero, .status-grid, .capability-grid, .summary, .stat-strip { grid-template-columns: 1fr; }
+      .hero h2 { max-width: none; }
+    }
+
+    @media (max-width: 560px) {
+      .page { width: min(100% - 20px, 1180px); padding-top: 10px; }
+      .panel, .card { padding: 18px; }
+      .hero h2 { font-size: 34px; }
+      .hero p { font-size: 15px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="panel">
+        <div class="eyebrow">YINGGUANG AI PLATFORM</div>
+        <h1 class="brand-title" id="hero-title">让每一次智能调用，都有稳定入口。</h1>
+        <p>瀛光 AI 面向企业客户、技术团队与 AI 应用开发者，提供统一 API 接入、协议兼容、API Key 与 Base URL 管理、用量与计费、运行监控及模型广场入口，帮助团队更快接入可观测、可扩展的生产级能力。</p>
+        <div class="actions" aria-label="行动入口">
+          <a class="btn primary" href="dashboard">开始使用</a>
+          <a class="btn" href="https://docs.newapi.pro/zh/docs/api" target="_blank" rel="noreferrer">查看文档</a>
+          <a class="btn" href="pricing">模型广场</a>
+          <a class="btn" href="rankings">查看排行榜</a>
+        </div>
+      </div>
+
+      <aside class="hero-aside" aria-label="能力摘要">
+        <div class="stat-strip">
+          <div class="mini">
+            <strong>统一</strong>
+            <span>API、协议、Key、Base URL 一体化入口</span>
+          </div>
+          <div class="mini">
+            <strong>可观测</strong>
+            <span>Usage / Billing / Monitoring 聚合查看</span>
+          </div>
+          <div class="mini">
+            <strong>兼容</strong>
+            <span>面向 OpenAI / Anthropic 路径接入</span>
+          </div>
+        </div>
+        <div class="codebox" aria-label="接口能力示意">
+          <div class="label">统一接入示意</div>
+          <pre>Base URL    /v1
+Auth        Bearer API Key
+Protocol    OpenAI / Anthropic compatible
+Console     Usage · Billing · Monitoring</pre>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" aria-labelledby="status-title">
+      <div class="section-head">
+        <div>
+          <h2 id="status-title">服务状态</h2>
+          <p>仅展示 OpenAI、Anthropic、瀛光 AI 三个状态卡；页面主体在任一状态读取失败时仍可正常渲染。</p>
+        </div>
+      </div>
+      <div class="status-grid" id="status-grid">
+        <article class="card" data-service="openai">
+          <div class="tag">Status Source</div>
+          <h4>OpenAI</h4>
+          <div class="status warn" data-status-node><span class="dot" aria-hidden="true"></span><span data-status-text>自动详情暂不可读取</span></div>
+          <ul class="meta-list">
+            <li><strong>数据来源：</strong><a href="https://status.openai.com/" target="_blank" rel="noreferrer">官方状态页</a></li>
+            <li data-readout><strong>读取状态：</strong>自动详情暂不可读取</li>
+            <li><strong>说明：</strong>保留官方入口，不虚构接口字段</li>
+          </ul>
+        </article>
+        <article class="card" data-service="anthropic">
+          <div class="tag">Status Source</div>
+          <h4>Anthropic</h4>
+          <div class="status warn" data-status-node><span class="dot" aria-hidden="true"></span><span data-status-text>自动详情暂不可读取</span></div>
+          <ul class="meta-list">
+            <li><strong>数据来源：</strong><a href="https://status.claude.com/" target="_blank" rel="noreferrer">官方状态页</a></li>
+            <li data-readout><strong>读取状态：</strong>自动详情暂不可读取</li>
+            <li><strong>说明：</strong>优先读取公开 JSON，失败则保留状态页入口</li>
+          </ul>
+        </article>
+        <article class="card" data-service="yingguang-ai">
+          <div class="tag">Status Source</div>
+          <h4>瀛光 AI</h4>
+          <div class="status warn" data-status-node><span class="dot" aria-hidden="true"></span><span data-status-text>主状态页与备用状态页待自动读取</span></div>
+          <ul class="meta-list">
+            <li><strong>数据来源：</strong><a href="https://uptime.yzy15.dpdns.org/status/cffofetrti" target="_blank" rel="noreferrer">主状态页</a></li>
+            <li><strong>备用地址：</strong><a href="https://uptimeo.dpdns.org/status/cffofetrti" target="_blank" rel="noreferrer">备用状态页</a></li>
+            <li data-readout><strong>读取状态：</strong>主状态页失败后自动降级到备用地址</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="capability-title">
+      <div class="section-head">
+        <div>
+          <h2 id="capability-title">入口能力</h2>
+          <p>聚焦企业接入的常用入口与管理能力。</p>
+        </div>
+      </div>
+      <div class="capability-grid">
+        <article class="card feature">
+          <strong>统一 API 接入</strong>
+          聚合常见模型调用路径，帮助团队以一致方式接入服务。
+          <div class="feature-links">
+            <a class="chip" href="https://docs.newapi.pro/zh/docs/api" target="_blank" rel="noreferrer">API 文档</a>
+            <a class="chip" href="authentication.html">鉴权说明</a>
+            <a class="chip" href="/quickstart.html">快速开始</a>
+          </div>
+        </article>
+        <article class="card feature">
+          <strong>协议与鉴权</strong>
+          明确 API Key、Base URL 与兼容协议的接入方式。
+          <div class="feature-links">
+            <a class="chip" href="authentication.html">API Key / Base URL</a>
+            <a class="chip" href="/openai-chat.html">OpenAI Chat</a>
+            <a class="chip" href="/anthropic.html">Anthropic</a>
+          </div>
+        </article>
+        <article class="card feature">
+          <strong>用量与计费</strong>
+          将调用、额度、成本与订单信息放在同一视图中管理。
+          <div class="feature-links">
+            <a class="chip" href="/billing.html">Billing</a>
+            <a class="chip" href="/models.html">模型广场</a>
+            <a class="chip" href="dashboard">Usage</a>
+          </div>
+        </article>
+        <article class="card feature">
+          <strong>运行监控</strong>
+          关注请求、性能、可用性与健康状态。
+          <div class="feature-links">
+            <a class="chip" href="rankings.html">性能排名</a>
+            <a class="chip" href="/faq.html">常见问题</a>
+            <a class="chip" href="https://uptime.yzy15.dpdns.org/status/cffofetrti" target="_blank" rel="noreferrer">服务状态</a>
+          </div>
+        </article>
+        <article class="card feature">
+          <strong>模型广场</strong>
+          统一查看可用模型、能力与选择路径。
+          <div class="feature-links">
+            <a class="chip" href="pricing.html">模型广场入口</a>
+            <a class="chip" href="/models.html">模型列表</a>
+            <a class="chip" href="dashboard">控制台</a>
+          </div>
+        </article>
+        <article class="card feature">
+          <strong>平台与安全</strong>
+          通过账户、权限与安全规范支持团队化使用。
+          <div class="feature-links">
+            <a class="chip" href="/security.html">API Key 安全</a>
+            <a class="chip" href="/user-guide.html">使用指南</a>
+            <a class="chip" href="/about.html">关于</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="summary-title">
+      <div class="section-head">
+        <div>
+          <h2 id="summary-title">性能摘要</h2>
+          <p>仅保留轻量摘要，不展开运营主体、团队介绍或完整部署说明。</p>
+        </div>
+      </div>
+      <div class="summary">
+        <article class="card">
+          <strong>≈ 200</strong>
+          <span>峰值并发请求参考，具体表现受模型、上下文、并发与网络环境影响。</span>
+        </article>
+        <article class="card">
+          <strong>≈ 150</strong>
+          <span>token/s 峰值生成速度参考，用于说明高负载场景下的能力上限。</span>
+        </article>
+        <article class="card">
+          <strong>H200 / GB300 / A180G</strong>
+          <span>本地部署硬件方向，仅作为能力边界提示，不在首页展开部署细节。</span>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const TIMEOUT_MS = 3500;
+      const services = {
+        openai: {
+          label: 'OpenAI',
+          url: 'https://status.openai.com/'
+        },
+        anthropic: {
+          label: 'Anthropic',
+          url: 'https://status.claude.com/api/v2/status.json'
+        },
+        'yingguang-ai': {
+          label: '瀛光 AI',
+          primary: 'https://uptime.yzy15.dpdns.org/status/cffofetrti',
+          fallback: 'https://uptimeo.dpdns.org/status/cffofetrti'
+        }
+      };
+
+      const cards = new Map(Array.from(document.querySelectorAll('[data-service]')).map((node) => [node.dataset.service, node]));
+
+      const stateClassByStatus = (state) => {
+        if (state === 'operational') return 'ok';
+        if (state === 'degraded' || state === 'partial_outage' || state === 'maintenance') return 'warn';
+        if (state === 'down' || state === 'major_outage' || state === 'unavailable') return 'bad';
+        return 'warn';
+      };
+
+      const statusTextByState = (label, state) => {
+        if (state === 'operational') return `${label} 正常`;
+        if (state === 'degraded') return `${label} 受影响`;
+        if (state === 'partial_outage') return `${label} 部分异常`;
+        if (state === 'major_outage' || state === 'down' || state === 'unavailable') return `${label} 异常`;
+        if (state === 'maintenance') return `${label} 维护中`;
+        return `${label} 无法读取`;
+      };
+
+      const updateCard = (key, state, message, detailText) => {
+        const card = cards.get(key);
+        if (!card) return;
+        const indicator = card.querySelector('[data-status-node]');
+        const textNode = card.querySelector('[data-status-text]');
+        const readout = card.querySelector('[data-readout]');
+        indicator.classList.remove('ok', 'warn', 'bad');
+        indicator.classList.add(stateClassByStatus(state));
+        textNode.textContent = message;
+        if (readout && detailText) {
+          readout.innerHTML = `<strong>读取状态：</strong>${detailText}`;
+        }
+      };
+
+      const withTimeout = (promiseFactory) => {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+        return Promise.resolve(promiseFactory(controller.signal)).finally(() => clearTimeout(timer));
+      };
+
+      const fetchJson = async (url, signal) => {
+        const response = await fetch(url, { signal, cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      };
+
+      const fetchText = async (url, signal) => {
+        const response = await fetch(url, { signal, cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.text();
+      };
+
+      const normalizeStatus = (value) => {
+        const text = String(value || '').toLowerCase();
+        if (!text) return 'unknown';
+        if (['operational', 'ok', 'up', 'available', 'green'].includes(text)) return 'operational';
+        if (['degraded', 'partial_outage', 'partial outage', 'partial', 'maintenance'].includes(text)) return text.replace(' ', '_');
+        if (['major_outage', 'outage', 'down', 'unavailable', 'red'].includes(text)) return text === 'outage' ? 'major_outage' : text;
+        return 'unknown';
+      };
+
+      const readOpenAI = () => {
+        updateCard('openai', 'unknown', '自动详情暂不可读取', '仅保留官方状态页入口，不猜测 JSON endpoint');
+      };
+
+      const readAnthropic = async () => {
+        try {
+          const data = await withTimeout((signal) => fetchJson(services.anthropic.url, signal));
+          const page = data && data.page ? data.page : {};
+          const indicator = normalizeStatus(page.status && page.status.indicator ? page.status.indicator : data?.status?.indicator);
+          const description = String(page.status && page.status.description ? page.status.description : '').trim();
+          const detail = description ? `Statuspage：${description}` : '已读取官方 JSON';
+          updateCard('anthropic', indicator, statusTextByState(services.anthropic.label, indicator), detail);
+        } catch {
+          updateCard('anthropic', 'unknown', '自动详情暂不可读取', '自动详情暂不可读取');
+        }
+      };
+
+      const readYingguang = async () => {
+        const tryFetch = async (url) => {
+          const text = await withTimeout((signal) => fetchText(url, signal));
+          const match = text.match(/"status"\s*:\s*"([^"]+)"/i) || text.match(/status\s*[:=]\s*([A-Za-z_ -]+)/i);
+          return { status: match ? normalizeStatus(match[1]) : 'unknown' };
+        };
+
+        try {
+          const primary = await tryFetch(services['yingguang-ai'].primary);
+          const detail = `当前使用主站 · ${primary.status === 'unknown' ? '字段不可解析' : primary.status === 'operational' ? '正常' : statusTextByState(services['yingguang-ai'].label, primary.status)}`;
+          updateCard('yingguang-ai', primary.status, statusTextByState(services['yingguang-ai'].label, primary.status), detail);
+          if (!['operational', 'degraded', 'partial_outage', 'maintenance', 'major_outage', 'down', 'unavailable'].includes(primary.status)) {
+            throw new Error('primary unreadable');
+          }
+        } catch {
+          try {
+            const fallback = await tryFetch(services['yingguang-ai'].fallback);
+            const detail = `当前使用备用站 · ${fallback.status === 'unknown' ? '字段不可解析' : fallback.status === 'operational' ? '正常' : statusTextByState(services['yingguang-ai'].label, fallback.status)}`;
+            updateCard('yingguang-ai', fallback.status, statusTextByState(services['yingguang-ai'].label, fallback.status), detail);
+          } catch {
+            updateCard('yingguang-ai', 'unknown', '无法读取状态', '主状态页失败后仅尝试备用地址，当前均不可用');
+          }
+        }
+      };
+
+      readOpenAI();
+      readAnthropic();
+      readYingguang();
+    })();
+  </script>
+</body>
+</html>

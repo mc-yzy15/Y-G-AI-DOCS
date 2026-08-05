@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="瀛光 AI 多协议开发者文档">
+  <title>OpenAI Responses | 瀛光 AI 文档</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="openai-responses">
+  <header class="docs-topbar border-bottom"><div class="container-fluid d-flex align-items-center justify-content-between gap-3 py-2"><a class="brand-link" href="index.html">瀛光 AI <span>文档</span></a><div class="d-flex align-items-center gap-2"><a class="topbar-link d-none d-md-inline" href="https://ai.yzy15.dpdns.org" target="_blank" rel="noreferrer">打开官网</a><button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#docsSidebar" aria-controls="docsSidebar">菜单</button></div></div></header>
+  <div class="docs-layout"><aside class="offcanvas-lg offcanvas-start docs-sidebar" tabindex="-1" id="docsSidebar" aria-label="文档导航"><div class="offcanvas-header d-lg-none"><h2 class="offcanvas-title h6 mb-0">文档导航</h2><button class="btn-close" type="button" data-bs-dismiss="offcanvas" aria-label="关闭导航"></button></div><nav class="offcanvas-body d-block p-3 p-lg-4"><div class="nav-group"><div class="nav-group-title">开始使用</div><a data-nav-page="overview" href="index.html">概览</a><a data-nav-page="quickstart" href="quickstart.html">快速开始</a><a data-nav-page="authentication" href="authentication.html">鉴权与 Base URL</a></div><div class="nav-group"><div class="nav-group-title">OpenAI 兼容</div><a data-nav-page="openai-chat" href="openai-chat.html">Chat Completions</a><a data-nav-page="openai-responses" href="openai-responses.html">Responses</a></div><div class="nav-group"><div class="nav-group-title">Anthropic</div><a data-nav-page="anthropic" href="anthropic.html">Messages / Claude</a></div><div class="nav-group"><div class="nav-group-title">Gemini</div><a data-nav-page="gemini" href="gemini.html">Gemini API</a></div><div class="nav-group"><div class="nav-group-title">平台使用</div><a data-nav-page="models" href="models.html">模型列表与选择</a><a data-nav-page="billing" href="billing.html">计费与用量</a><a data-nav-page="faq" href="faq.html">常见问题</a></div><div class="nav-group"><div class="nav-group-title">安全</div><a data-nav-page="security" href="security.html">API Key 安全</a><a data-nav-page="about" href="about.html">关于瀛光 AI</a></div></nav></aside><main class="docs-main"><div class="container-fluid docs-content"><h1>OpenAI Responses</h1><p class="lead">本页只说明 Responses 协议的最小可用形态，便于你在当前部署里确认输入、读输出和判断流式边界。</p><div class="docs-callout warning mb-4">以下示例均使用占位符。不要把本页字段直接套用到 Chat Completions、Anthropic Messages 或 Gemini API。</div><div class="docs-grid cols-2 mb-4"><section class="docs-card"><h2 class="h4">协议目的</h2><p class="mb-0">适合统一输入、工具调用和结构化输出场景。若你的部署启用了兼容层，这一页只帮助你确认 Responses 的语义，不承诺与任一上游实现逐项同构。</p></section><section class="docs-card"><h2 class="h4">最小概念请求</h2><ul class="mb-0"><li>只保留一个模型标识、一个最小输入和必要认证头。</li><li>请求路径由部署决定，示例中的路径占位符不能当作固定 endpoint。</li><li>不要混入 Chat Completions、Anthropic 或 Gemini 的专属字段。</li></ul></section></div><div class="docs-grid cols-2 mb-4"><section class="docs-card"><h2 class="h4">响应阅读</h2><ul class="mb-0"><li>优先读取输出内容、工具结果、停止原因和错误对象。</li><li>如果返回流式片段，先确认事件块是否仍然对应同一输入上下文。</li><li>遇到异常时，以部署返回的错误结构为准，不依赖固定字段名。</li></ul></section><section class="docs-card"><h2 class="h4">流式 / 错误边界</h2><ul class="mb-0"><li>是否支持流式、如何结束、是否提供增量内容，全部以当前部署为准。</li><li>403、429、5xx 与内容层错误要分开处理。</li><li>本页不提供管理接口，也不假定有后台配置路径。</li></ul></section></div><div class="docs-callout mb-4"><strong>部署依赖提示：</strong>请先确认当前部署的 Base URL、认证头名称、可用模型与路径；若平台切换兼容层实现，示例中的输入结构可能需要同步调整。</div><div class="docs-grid cols-2 mb-4"><section class="docs-card"><div class="d-flex justify-content-between gap-2 align-items-center mb-3"><h2 class="h4 mb-0">cURL</h2><button class="btn btn-sm btn-outline-secondary" type="button" data-copy-target="#openai-responses-curl">复制</button></div><div class="code-shell"><pre><code id="openai-responses-curl">BASE_URL=&lt;deployment base URL&gt;
+API_KEY=&lt;your API key&gt;
+MODEL_ID=&lt;model available in this deployment&gt;
+AUTH_HEADER=&lt;header confirmed by deployment documentation&gt;
+ENDPOINT_PATH=&lt;deployment path&gt;
+
+curl "$BASE_URL/$ENDPOINT_PATH" \
+  -H "$AUTH_HEADER: $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "'"$MODEL_ID"'",
+    "input": "Hello"
+  }'</code></pre></div></section><section class="docs-card"><div class="d-flex justify-content-between gap-2 align-items-center mb-3"><h2 class="h4 mb-0">Python requests</h2><button class="btn btn-sm btn-outline-secondary" type="button" data-copy-target="#openai-responses-py">复制</button></div><div class="code-shell"><pre><code id="openai-responses-py">import requests
+
+BASE_URL = "&lt;deployment base URL&gt;"
+API_KEY = "&lt;your API key&gt;"
+MODEL_ID = "&lt;model available in this deployment&gt;"
+AUTH_HEADER = "&lt;header confirmed by deployment documentation&gt;"
+ENDPOINT_PATH = "&lt;deployment path&gt;"
+
+response = requests.post(
+    f"{BASE_URL}/{ENDPOINT_PATH}",
+    headers={AUTH_HEADER: API_KEY, "Content-Type": "application/json"},
+    json={"model": MODEL_ID, "input": "Hello"},
+    timeout=30,
+)
+print(response.status_code)
+print(response.text)</code></pre></div></section><section class="docs-card"><div class="d-flex justify-content-between gap-2 align-items-center mb-3"><h2 class="h4 mb-0">JavaScript fetch</h2><button class="btn btn-sm btn-outline-secondary" type="button" data-copy-target="#openai-responses-js">复制</button></div><div class="code-shell"><pre><code id="openai-responses-js">const BASE_URL = '&lt;deployment base URL&gt;';
+const API_KEY = '&lt;your API key&gt;';
+const MODEL_ID = '&lt;model available in this deployment&gt;';
+const AUTH_HEADER = '&lt;header confirmed by deployment documentation&gt;';
+const ENDPOINT_PATH = '&lt;deployment path&gt;';
+
+const response = await fetch(`${BASE_URL}/${ENDPOINT_PATH}`, {
+  method: 'POST',
+  headers: {
+    [AUTH_HEADER]: API_KEY,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ model: MODEL_ID, input: 'Hello' }),
+});
+
+console.log(await response.text());</code></pre></div></section><section class="docs-card"><div class="d-flex justify-content-between gap-2 align-items-center mb-3"><h2 class="h4 mb-0">PHP cURL</h2><button class="btn btn-sm btn-outline-secondary" type="button" data-copy-target="#openai-responses-php">复制</button></div><div class="code-shell"><pre><code id="openai-responses-php">&lt;?php
+$baseUrl = '&lt;deployment base URL&gt;';
+$apiKey = '&lt;your API key&gt;';
+$modelId = '&lt;model available in this deployment&gt;';
+$authHeader = '&lt;header confirmed by deployment documentation&gt;';
+$endpointPath = '&lt;deployment path&gt;';
+
+$ch = curl_init($baseUrl . '/' . $endpointPath);
+curl_setopt_array($ch, [
+  CURLOPT_POST =&gt; true,
+  CURLOPT_HTTPHEADER =&gt; [$authHeader . ': ' . $apiKey, 'Content-Type: application/json'],
+  CURLOPT_POSTFIELDS =&gt; json_encode(['model' =&gt; $modelId, 'input' =&gt; 'Hello']),
+  CURLOPT_RETURNTRANSFER =&gt; true,
+]);
+echo curl_exec($ch);</code></pre></div></section></div><div class="docs-table-wrap"><table class="table table-striped docs-table mb-0"><thead><tr><th>项目</th><th>说明</th><th>部署确认状态</th></tr></thead><tbody><tr><td>协议目的</td><td>统一输入与结构化输出</td><td>以实际部署为准</td></tr><tr><td>响应阅读</td><td>输出、工具结果、停止原因</td><td>以实际部署为准</td></tr><tr><td>流式 / 错误边界</td><td>流式开关、事件格式、错误分类均由部署决定</td><td>以实际部署为准</td></tr><tr><td>部署依赖</td><td>Base URL、认证头、模型与路径都需先确认</td><td>以实际部署为准</td></tr></table></div></div></main></div>
+  <footer class="docs-footer border-top"><div class="container-fluid py-3 d-flex flex-wrap justify-content-between gap-2"><div>北京仙盛科技有限公司 · 瀛光 AI</div><div class="d-flex gap-3"><a href="用户协议.txt">用户协议</a><a href="隐私政策.txt">隐私政策</a></div></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDZLESaAA55NDZoxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="assets/docs.js"></script>
+</body>
+</html>
