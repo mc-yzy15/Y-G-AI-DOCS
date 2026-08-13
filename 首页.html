@@ -371,10 +371,10 @@
         <h1 class="brand-title" id="hero-title">让每一次智能调用，都有稳定入口。</h1>
         <p>瀛光 AI 面向企业客户、技术团队与 AI 应用开发者，提供统一 API 接入、协议兼容、API Key 与 Base URL 管理、用量与计费、运行监控及模型广场入口，帮助团队更快接入可观测、可扩展的生产级能力。</p>
         <div class="actions" aria-label="行动入口">
-          <a class="btn primary" href="dashboard">开始使用</a>
+          <a class="btn primary" href="https://ai.yzy15.dpdns.org/" target="_blank" rel="noreferrer">开始使用</a>
           <a class="btn" href="https://docs.newapi.pro/zh/docs/api" target="_blank" rel="noreferrer">查看文档</a>
-          <a class="btn" href="pricing">模型广场</a>
-          <a class="btn" href="rankings">查看排行榜</a>
+          <a class="btn" href="https://ai.yzy15.dpdns.org/pricing" target="_blank" rel="noreferrer">模型广场</a>
+          <a class="btn" href="https://ai.yzy15.dpdns.org/rankings" target="_blank" rel="noreferrer">查看排行榜</a>
         </div>
       </div>
 
@@ -458,7 +458,7 @@ Console     Usage · Billing · Monitoring</pre>
           <div class="feature-links">
             <a class="chip" href="https://docs.newapi.pro/zh/docs/api" target="_blank" rel="noreferrer">API 文档</a>
             <a class="chip" href="authentication.html">鉴权说明</a>
-            <a class="chip" href="/quickstart.html">快速开始</a>
+            <a class="chip" href="quickstart.html">快速开始</a>
           </div>
         </article>
         <article class="card feature">
@@ -466,25 +466,25 @@ Console     Usage · Billing · Monitoring</pre>
           明确 API Key、Base URL 与兼容协议的接入方式。
           <div class="feature-links">
             <a class="chip" href="authentication.html">API Key / Base URL</a>
-            <a class="chip" href="/openai-chat.html">OpenAI Chat</a>
-            <a class="chip" href="/anthropic.html">Anthropic</a>
+            <a class="chip" href="openai-chat.html">OpenAI Chat</a>
+            <a class="chip" href="anthropic.html">Anthropic</a>
           </div>
         </article>
         <article class="card feature">
           <strong>用量与计费</strong>
           将调用、额度、成本与订单信息放在同一视图中管理。
           <div class="feature-links">
-            <a class="chip" href="/billing.html">Billing</a>
-            <a class="chip" href="/models.html">模型广场</a>
-            <a class="chip" href="dashboard">Usage</a>
+            <a class="chip" href="billing.html">Billing</a>
+            <a class="chip" href="models.html">模型广场</a>
+            <a class="chip" href="https://ai.yzy15.dpdns.org/dashboard" target="_blank" rel="noreferrer">Usage</a>
           </div>
         </article>
         <article class="card feature">
           <strong>运行监控</strong>
           关注请求、性能、可用性与健康状态。
           <div class="feature-links">
-            <a class="chip" href="rankings.html">性能排名</a>
-            <a class="chip" href="/faq.html">常见问题</a>
+            <a class="chip" href="https://ai.yzy15.dpdns.org/rankings" target="_blank" rel="noreferrer">性能排名</a>
+            <a class="chip" href="faq.html">常见问题</a>
             <a class="chip" href="https://uptime.yzy15.dpdns.org/status/cffofetrti" target="_blank" rel="noreferrer">服务状态</a>
           </div>
         </article>
@@ -492,18 +492,18 @@ Console     Usage · Billing · Monitoring</pre>
           <strong>模型广场</strong>
           统一查看可用模型、能力与选择路径。
           <div class="feature-links">
-            <a class="chip" href="pricing.html">模型广场入口</a>
-            <a class="chip" href="/models.html">模型列表</a>
-            <a class="chip" href="dashboard">控制台</a>
+            <a class="chip" href="https://ai.yzy15.dpdns.org/pricing" target="_blank" rel="noreferrer">模型广场入口</a>
+            <a class="chip" href="models.html">模型列表</a>
+            <a class="chip" href="https://ai.yzy15.dpdns.org/dashboard" target="_blank" rel="noreferrer">控制台</a>
           </div>
         </article>
         <article class="card feature">
           <strong>平台与安全</strong>
           通过账户、权限与安全规范支持团队化使用。
           <div class="feature-links">
-            <a class="chip" href="/security.html">API Key 安全</a>
-            <a class="chip" href="/user-guide.html">使用指南</a>
-            <a class="chip" href="/about.html">关于</a>
+            <a class="chip" href="security.html">API Key 安全</a>
+            <a class="chip" href="user-guide.html">使用指南</a>
+            <a class="chip" href="about.html">关于</a>
           </div>
         </article>
       </div>
@@ -618,9 +618,11 @@ Console     Usage · Billing · Monitoring</pre>
       const readAnthropic = async () => {
         try {
           const data = await withTimeout((signal) => fetchJson(services.anthropic.url, signal));
-          const page = data && data.page ? data.page : {};
-          const indicator = normalizeStatus(page.status && page.status.indicator ? page.status.indicator : data?.status?.indicator);
-          const description = String(page.status && page.status.description ? page.status.description : '').trim();
+          const status = (data && data.status && data.status.indicator)
+            ? data.status
+            : (data && data.page && data.page.status ? data.page.status : {});
+          const indicator = normalizeStatus(status.indicator);
+          const description = String(status.description ? status.description : '').trim();
           const detail = description ? `Statuspage：${description}` : '已读取官方 JSON';
           updateCard('anthropic', indicator, statusTextByState(services.anthropic.label, indicator), detail);
         } catch {

@@ -3,16 +3,121 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="瀛光 AI 多协议开发者文档">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="瀛光 AI 常见问题解答。">
   <title>常见问题 | 瀛光 AI 文档</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body data-page="faq">
-  <header class="docs-topbar border-bottom"><div class="container-fluid d-flex align-items-center justify-content-between gap-3 py-2"><a class="brand-link" href="index.html">瀛光 AI <span>文档</span></a><div class="d-flex align-items-center gap-2"><a class="topbar-link d-none d-md-inline" href="https://ai.yzy15.dpdns.org" target="_blank" rel="noreferrer">打开官网</a><button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#docsSidebar" aria-controls="docsSidebar">菜单</button></div></div></header>
-  <div class="docs-layout"><aside class="offcanvas-lg offcanvas-start docs-sidebar" tabindex="-1" id="docsSidebar" aria-label="文档导航"><div class="offcanvas-header d-lg-none"><h2 class="offcanvas-title h6 mb-0">文档导航</h2><button class="btn-close" type="button" data-bs-dismiss="offcanvas" aria-label="关闭导航"></button></div><nav class="offcanvas-body d-block p-3 p-lg-4"><div class="nav-group"><div class="nav-group-title">开始使用</div><a data-nav-page="overview" href="index.html">概览</a><a data-nav-page="quickstart" href="quickstart.html">快速开始</a><a data-nav-page="authentication" href="authentication.html">鉴权与 Base URL</a></div><div class="nav-group"><div class="nav-group-title">OpenAI 兼容</div><a data-nav-page="openai-chat" href="openai-chat.html">Chat Completions</a><a data-nav-page="openai-responses" href="openai-responses.html">Responses</a></div><div class="nav-group"><div class="nav-group-title">Anthropic</div><a data-nav-page="anthropic" href="anthropic.html">Messages / Claude</a></div><div class="nav-group"><div class="nav-group-title">Gemini</div><a data-nav-page="gemini" href="gemini.html">Gemini API</a></div><div class="nav-group"><div class="nav-group-title">平台使用</div><a data-nav-page="models" href="models.html">模型列表与选择</a><a data-nav-page="billing" href="billing.html">计费与用量</a><a data-nav-page="faq" href="faq.html">常见问题</a></div><div class="nav-group"><div class="nav-group-title">安全</div><a data-nav-page="security" href="security.html">API Key 安全</a><a data-nav-page="about" href="about.html">关于瀛光 AI</a></div></nav></aside><main class="docs-main"><div class="container-fluid docs-content"><h1>常见问题</h1><p class="lead">如果这里没有你要的答案，请回到当前实例文档查看部署差异。</p><div class="docs-grid"><section class="docs-card"><h2 class="h5">Key 暴露了怎么办？</h2><p>立即停止使用、轮换密钥，并检查日志、仓库、截图和前端页面中是否遗留凭据。</p></section><section class="docs-card"><h2 class="h5">认证失败或路径不匹配？</h2><p>核对当前部署确认的 <code>AUTH_HEADER</code>、Base URL 和 API path，优先查看当前实例文档。</p></section><section class="docs-card"><h2 class="h5">模型不存在或不可用？</h2><p>模型名由实际部署决定。请查看当前实例提供的模型列表，不要依赖旧示例。</p></section><section class="docs-card"><h2 class="h5">主站不可用，何时切换备用地址？</h2><p>只有在主站不可用或部署方明确提示时切换到 <code>https://aio.yzy15.dpdns.org</code>。</p></section><section class="docs-card"><h2 class="h5">超时、流式异常或字段不兼容？</h2><p>这些问题通常由部署差异、网络或兼容层实现引起，请以当前实例文档和错误信息为准。</p></section><section class="docs-card"><h2 class="h5">如何报告问题？</h2><p>保留请求时间、协议页、模型名、错误信息和脱敏后的响应片段，再联系支持渠道。</p></section></div><p class="mt-3 mb-0">如需更具体的排查步骤，请回到当前实例文档核对协议页与路径。</p></div></main></div>
-  <footer class="docs-footer border-top"><div class="container-fluid py-3 d-flex flex-wrap justify-content-between gap-2"><div>北京仙盛科技有限公司 · 瀛光 AI</div><div class="d-flex gap-3"><a href="用户协议.txt">用户协议</a><a href="隐私政策.txt">隐私政策</a></div></div></footer>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <header class="docs-topbar">
+    <div class="docs-topbar-inner">
+      <a class="brand-link" href="index.html">瀛光 AI<span>文档</span></a>
+      <div class="topbar-actions">
+        <a class="topbar-link" href="https://ai.yzy15.dpdns.org" target="_blank" rel="noreferrer">打开官网</a>
+        <button class="docs-menu-btn" type="button" aria-expanded="false">导航</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="docs-layout">
+    <div class="backdrop"></div>
+    <aside class="docs-sidebar" id="docsSidebar" aria-label="文档导航">
+      <div class="docs-sidebar-head"><span>文档导航</span><button class="docs-close-btn" type="button" aria-label="关闭导航">×</button></div>
+      <nav>
+        <div class="nav-group">
+          <div class="nav-group-title">开始使用</div>
+          <a href="index.html" data-nav-page="index">概览</a>
+          <a href="quickstart.html" data-nav-page="quickstart">快速开始</a>
+          <a href="authentication.html" data-nav-page="authentication">鉴权与 Base URL</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-title">OpenAI 兼容</div>
+          <a href="openai-chat.html" data-nav-page="openai-chat">Chat Completions</a>
+          <a href="openai-responses.html" data-nav-page="openai-responses">Responses</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-title">Anthropic 兼容</div>
+          <a href="anthropic.html" data-nav-page="anthropic">Messages / Claude</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-title">Gemini 兼容</div>
+          <a href="gemini.html" data-nav-page="gemini">Gemini API</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-title">平台使用</div>
+          <a href="models.html" data-nav-page="models">模型列表与选择</a>
+          <a href="billing.html" data-nav-page="billing">计费与用量</a>
+          <a href="user-guide.html" data-nav-page="user-guide">用户手册</a>
+          <a href="faq.html" data-nav-page="faq">常见问题</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-title">安全与支持</div>
+          <a href="security.html" data-nav-page="security">API Key 安全</a>
+          <a href="about.html" data-nav-page="about">关于瀛光 AI</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="docs-main">
+      <div class="docs-content">
+        <h1>常见问题</h1>
+        <p class="lead">按主题整理了接入与使用中的高频问题。若未覆盖你的问题，可在官网提交工单或联系客服。</p>
+
+        <h2>接入与鉴权</h2>
+        <h3>返回 401 Unauthorized 怎么办？</h3>
+        <p>说明 API Key 缺失或无效。请确认：Key 是否完整复制（以 <code>sk-</code> 开头）、是否已在控制台禁用或删除、Header 是否写为 <code>Authorization: Bearer sk-...</code>。</p>
+
+        <h3>返回 404 Not Found？</h3>
+        <p>请检查请求路径与模型 ID。常见原因：路径写错（应为 <code>/v1/chat/completions</code>）、模型 ID 不在「模型广场」列表中、或该模型当前不可用。</p>
+
+        <h3>Base URL 应该填什么？</h3>
+        <p>主地址 <code>https://ai.yzy15.dpdns.org</code>，备用 <code>https://aio.yzy15.dpdns.org</code>。多数 SDK 的 base_url 需以 <code>/v1</code> 结尾，请按客户端要求填写。</p>
+
+        <h2>模型与协议</h2>
+        <h3>支持哪些协议？</h3>
+        <p>支持 OpenAI Chat Completions 与 Responses、Anthropic Messages、Gemini 原生接口，详见各协议文档。</p>
+
+        <h3>模型 ID 在哪里查？</h3>
+        <p>以官网「模型广场」实时展示的模型 ID 为准，请求时填入 <code>model</code> 字段。</p>
+
+        <h3>Claude 模型能用 OpenAI 格式调用吗？</h3>
+        <p>可以。在 Chat Completions 的 <code>model</code> 字段填入 Claude 模型 ID 即可，平台会完成协议转换。</p>
+
+        <h2>计费与账户</h2>
+        <h3>余额怎么扣的？</h3>
+        <p>按 token 用量核算，公式见「计费与用量」页。响应中 <code>usage</code> 字段会给出本次消耗。</p>
+
+        <h3>为什么请求失败了还扣费？</h3>
+        <p>通常只有在模型开始生成并返回内容后才会计费；连接中断前的已生成 token 仍可能按量计入。若认为计费异常，可在控制台「日志」中核对并联系客服。</p>
+
+        <h3>怎么充值？</h3>
+        <p>登录官网控制台进入「充值」页面，按提示选择充值方式与金额。</p>
+
+        <h2>连接与性能</h2>
+        <h3>主地址连不上怎么办？</h3>
+        <p>可将 Base URL 切换为备用地址 <code>https://aio.yzy15.dpdns.org</code> 或 CN2 专线 <code>https://aicn.yzy15.dpdns.org</code>，或访问状态页查看服务状态。</p>
+
+        <h3>请求很慢？</h3>
+        <p>可尝试：改用 <code>stream: true</code> 流式接收、选择低延迟模型、减少历史消息携带量、确认本地网络到服务端延迟。</p>
+
+        <h3>返回 429 Too Many Requests？</h3>
+        <p>触发了频率或并发限制。请降低调用频率，或联系管理员调整当前分组的速率限制。</p>
+
+        <div class="docs-callout info">本页内容会随平台调整更新；具体以官网控制台与《用户协议》为准。</div>
+      </div>
+    </main>
+  </div>
+
+  <footer class="docs-footer">
+    <div class="docs-footer-inner">
+      <span>© 2026 北京仙盛科技有限公司 · 瀛光 AI</span>
+      <div class="footer-links">
+        <a href="用户协议.txt">用户协议</a>
+        <a href="隐私政策.txt">隐私政策</a>
+        <a href="about.html">关于</a>
+      </div>
+    </div>
+  </footer>
   <script src="assets/docs.js"></script>
 </body>
 </html>

@@ -436,6 +436,7 @@
         <h2 id="about-title">面向企业交付的 AI 平台说明。</h2>
         <p>瀛光 AI 由北京仙盛科技有限公司运营，定位为面向企业客户的 AI 平台与统一 API 网关，覆盖模型接入、协议兼容、调用路由、权限与用量管理、账单与监控等能力，并支持向本地化算力环境延展。</p>
         <div class="lead-links" aria-label="快捷链接">
+          <a class="btn" href="首页.html">返回首页</a>
           <a class="btn primary" href="https://ai.yzy15.dpdns.org/" target="_blank" rel="noreferrer">官方平台</a>
           <a class="btn" href="https://docs.newapi.pro/zh/docs/api" target="_blank" rel="noreferrer">文档</a>
           <a class="btn" href="#status">服务状态</a>
@@ -506,6 +507,7 @@
                   <li><strong>数据来源：</strong><a href="https://status.openai.com/" target="_blank" rel="noreferrer">官方状态页</a></li>
                   <li><strong>读取逻辑：</strong>保留官方状态页，不猜测 JSON endpoint</li>
                   <li><strong>展示原则：</strong>自动详情暂不可读取时不做额外推断</li>
+                  <li data-readout><strong>读取状态：</strong>待读取</li>
                 </ul>
               </div>
             </div>
@@ -515,8 +517,9 @@
                 <div class="status warn" data-status-state="anthropic"><span class="dot" aria-hidden="true"></span><span>自动详情暂不可读取</span></div>
                 <ul class="meta-list">
                   <li><strong>数据来源：</strong><a href="https://status.claude.com/" target="_blank" rel="noreferrer">官方状态页</a></li>
-                  <li><strong>读取逻辑：</strong>读取 <code>https://status.claude.com/api/v2/status.json</code> 的 <code>payload.page.status.indicator</code> / <code>payload.page.status.description</code></li>
+                  <li><strong>读取逻辑：</strong>读取 <code>https://status.claude.com/api/v2/status.json</code> 的 <code>status.indicator</code> / <code>status.description</code></li>
                   <li><strong>展示原则：</strong>仅在字段明确时展示状态，否则保留中性提示</li>
+                  <li data-readout><strong>读取状态：</strong>待读取</li>
                 </ul>
               </div>
             </div>
@@ -528,6 +531,7 @@
                   <li><strong>数据来源：</strong><a href="https://uptime.yzy15.dpdns.org/status/cffofetrti" target="_blank" rel="noreferrer">主状态页</a></li>
                   <li><strong>备用地址：</strong><a href="https://uptimeo.dpdns.org/status/cffofetrti" target="_blank" rel="noreferrer">备用状态页</a></li>
                   <li><strong>读取逻辑：</strong>主状态页失败后仅尝试备用地址；成功后明确显示当前使用主站或备用站，失败则标记不可用</li>
+                  <li data-readout><strong>读取状态：</strong>待读取</li>
                 </ul>
               </div>
             </div>
@@ -662,9 +666,9 @@
       const readAnthropic = async () => {
         try {
           const payload = await withTimeout((signal) => fetchJson(services.anthropic.url, signal));
-          const page = payload && payload.page ? payload.page : {};
-          const indicator = normalizeStatus(page.status && page.status.indicator);
-          const description = String(page.status && page.status.description ? page.status.description : '').trim();
+          const status = (payload && payload.status) ? payload.status : (payload && payload.page ? payload.page.status || {} : {});
+          const indicator = normalizeStatus(status.indicator);
+          const description = String(status.description ? status.description : '').trim();
           const detail = description ? `Statuspage：${description}` : '已读取官方 JSON';
           updateCard('anthropic', indicator, statusTextByState(services.anthropic.label, indicator), detail);
         } catch {
