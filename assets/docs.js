@@ -98,7 +98,7 @@
   document.querySelectorAll('.code-tabs').forEach(function (tabs) {
     var tabBtns = tabs.querySelectorAll('.code-tab');
     var shells = [];
-    var current = tabs.getAttribute('data-current') || 0;
+    var current = parseInt(tabs.getAttribute('data-current') || '0', 10) || 0;
     var prev = tabs.nextElementSibling;
     while (prev && prev.classList && prev.classList.contains('code-shell')) {
       shells.push(prev);
@@ -125,7 +125,7 @@
     a.addEventListener('click', function (e) {
       var hash = a.getAttribute('href');
       if (hash.length < 2) return;
-      var el = document.querySelector(hash);
+      var el = document.getElementById(hash.slice(1));
       if (!el) return;
       e.preventDefault();
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });

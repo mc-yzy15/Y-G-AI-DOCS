@@ -580,7 +580,10 @@ Console     Usage · Billing · Monitoring</pre>
         indicator.classList.add(stateClassByStatus(state));
         textNode.textContent = message;
         if (readout && detailText) {
-          readout.innerHTML = `<strong>读取状态：</strong>${detailText}`;
+          readout.replaceChildren();
+          const strong = document.createElement('strong');
+          strong.textContent = '读取状态：';
+          readout.append(strong, document.createTextNode(detailText));
         }
       };
 
@@ -606,7 +609,7 @@ Console     Usage · Billing · Monitoring</pre>
         const text = String(value || '').toLowerCase();
         if (!text) return 'unknown';
         if (['operational', 'ok', 'up', 'available', 'green'].includes(text)) return 'operational';
-        if (['degraded', 'partial_outage', 'partial outage', 'partial', 'maintenance'].includes(text)) return text.replace(' ', '_');
+        if (['degraded', 'partial outage', 'partial', 'maintenance'].includes(text)) return text === 'partial' ? 'partial_outage' : text.replace(' ', '_');
         if (['major_outage', 'outage', 'down', 'unavailable', 'red'].includes(text)) return text === 'outage' ? 'major_outage' : text;
         return 'unknown';
       };
@@ -633,7 +636,7 @@ Console     Usage · Billing · Monitoring</pre>
       const readYingguang = async () => {
         const tryFetch = async (url) => {
           const text = await withTimeout((signal) => fetchText(url, signal));
-          const match = text.match(/"status"\s*:\s*"([^"]+)"/i) || text.match(/status\s*[:=]\s*([A-Za-z_ -]+)/i);
+          const match = text.match(/"status"\s*:\s*"([^"]+)"/i);
           return { status: match ? normalizeStatus(match[1]) : 'unknown' };
         };
 

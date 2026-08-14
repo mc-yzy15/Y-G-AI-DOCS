@@ -20,6 +20,7 @@
       --brand-soft: rgba(31, 111, 235, 0.08);
       --success: #0f9d58;
       --warning: #b58105;
+      --danger: #cf4444;
       --shadow: none;
       --line: rgba(19, 34, 56, 0.12);
       --chip-bg: rgba(19, 34, 56, 0.05);
@@ -38,6 +39,7 @@
         --brand-soft: rgba(118, 169, 255, 0.12);
         --success: #3bc46d;
         --warning: #f0b84b;
+        --danger: #ff6b6b;
         --line: rgba(236, 242, 255, 0.14);
         --chip-bg: rgba(236, 242, 255, 0.06);
       }
@@ -337,6 +339,7 @@
 
     .status.ok .dot { background: var(--success); box-shadow: 0 0 0 4px rgba(15, 157, 88, 0.12); }
     .status.warn .dot { background: var(--warning); box-shadow: 0 0 0 4px rgba(181, 133, 5, 0.12); }
+    .status.bad .dot { background: var(--danger); box-shadow: 0 0 0 4px rgba(207, 68, 68, 0.14); }
 
     .meta-list {
       list-style: none;
@@ -604,7 +607,7 @@
       const stateClassByStatus = (state) => {
         if (state === 'operational') return 'ok';
         if (state === 'degraded' || state === 'partial_outage' || state === 'maintenance') return 'warn';
-        if (state === 'down' || state === 'major_outage' || state === 'unavailable') return 'warn';
+        if (state === 'down' || state === 'major_outage' || state === 'unavailable') return 'bad';
         return 'warn';
       };
 
@@ -624,11 +627,16 @@
         const textNode = card.querySelector('[data-status-state] span:last-child');
         const readout = card.querySelector('.meta-list li[data-readout]');
         if (indicator) {
-          indicator.classList.remove('ok', 'warn');
+          indicator.classList.remove('ok', 'warn', 'bad');
           indicator.classList.add(stateClassByStatus(state));
         }
         if (textNode) textNode.textContent = message;
-        if (readout && detailText) readout.innerHTML = `<strong>读取状态：</strong>${detailText}`;
+        if (readout && detailText) {
+          readout.replaceChildren();
+          const strong = document.createElement('strong');
+          strong.textContent = '读取状态：';
+          readout.append(strong, document.createTextNode(detailText));
+        }
       };
 
       const withTimeout = (promise) => {
@@ -654,7 +662,7 @@
         const text = String(value || '').toLowerCase();
         if (!text) return 'unknown';
         if (['operational', 'ok', 'up', 'available', 'green'].includes(text)) return 'operational';
-        if (['degraded', 'partial_outage', 'partial outage', 'partial', 'maintenance'].includes(text)) return text.replace(' ', '_');
+        if (['degraded', 'partial outage', 'partial', 'maintenance'].includes(text)) return text === 'partial' ? 'partial_outage' : text.replace(' ', '_');
         if (['major_outage', 'outage', 'down', 'unavailable', 'red'].includes(text)) return text === 'outage' ? 'major_outage' : text;
         return 'unknown';
       };
@@ -679,7 +687,7 @@
       const readYingguang = async () => {
         const tryFetch = async (url) => {
           const text = await withTimeout((signal) => fetchText(url, signal));
-          const match = text.match(/"status"\s*:\s*"([^"]+)"/i) || text.match(/status\s*[:=]\s*([A-Za-z_ -]+)/i);
+          const match = text.match(/"status"\s*:\s*"([^"]+)"/i);
           return { status: match ? normalizeStatus(match[1]) : 'unknown' };
         };
 
@@ -687,7 +695,7 @@
           const primary = await tryFetch(services.yingguang.primary);
           const detail = `当前使用主站 · ${primary.status === 'unknown' ? '字段不可解析' : statusTextByState(services.yingguang.label, primary.status)}`;
           updateCard('yingguang', primary.status, statusTextByState(services.yingguang.label, primary.status), detail);
-          if (primary.status !== 'operational' && primary.status !== 'degraded' && primary.status !== 'partial_outage' && primary.status !== 'maintenance' && primary.status !== 'major_outage' && primary.status !== 'down' && primary.status !== 'unavailable') {
+          if (!['operational', 'degraded', 'partial_outage', 'maintenance', 'major_outage', 'down', 'unavailable'].includes(primary.status)) {
             throw new Error('primary unreadable');
           }
         } catch {
